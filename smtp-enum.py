@@ -10,3 +10,15 @@ for user in users:
     sock.send("VRFY " + user + "\n")
     response = sock.recv(1024)
     sock.close()
+    if "252" in response:
+        print(user + "-> Válido!")
+    elif "550" in response:
+        print(user + "-> Usuário não encontrado!")
+    elif "503" in response:
+        print("Servidor requer autenticação")
+        break
+    elif "500" in response:
+        print("Comando VRFY não suportado pelo servidor")
+        break
+    else:
+        print("Reposta do servidor: ", response)
